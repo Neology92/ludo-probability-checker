@@ -64,9 +64,19 @@ Field.prototype.getPawn = function() {
  * @param {Object} [pawn] Pawn
  */
 Field.prototype.setPawn = function(pawn) {
-  this.pawn = pawn || null;
-
-  //! remove pawn from list if null
-
-  this.$elem.append(pawn.$elem);
+  if (pawn) {
+    if (pawn.player.color == this.type || this.type == 1) {
+      this.pawn = pawn;
+      console.log("thinking...");
+      this.$elem.children().remove();
+      this.$elem.append(pawn.$elem);
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    this.pawn = null;
+    this.$elem.children().remove();
+    return true;
+  }
 };

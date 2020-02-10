@@ -78,14 +78,18 @@
         // move dragged elem to the selected drop target
         if (event.target.classList[0] == "field") {
           event.target.classList.remove("field-focused");
-          let xy, coords;
+          let xy, coords, field_1, field_2;
           xy = dragged.parentNode.id.split("-");
           coords = [parseInt(xy[1], 10), parseInt(xy[2], 10)];
-          game.board.getField(coords).setPawn(null);
+          field_1 = game.board.getField(coords);
+          pawn = field_1.getPawn();
+
           xy = event.target.id.split("-");
-          // coords = [parseInt(xy[1], 10), parseInt(xy[2], 10)];
-          //! push dragged pawn instead div
-          // game.board.getField(coords).setPawn(dragged);
+          coords = [parseInt(xy[1], 10), parseInt(xy[2], 10)];
+          field_2 = game.board.getField(coords);
+
+          let moved = field_2.setPawn(pawn);
+          if (moved) field_1.setPawn(null);
         }
       },
       false
