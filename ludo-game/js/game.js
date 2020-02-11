@@ -90,6 +90,7 @@
 
           let moved = field_2.setPawn(pawn);
           if (moved) field_1.setPawn(null);
+          console.log(pawn.isMovable());
         }
       },
       false

@@ -27,6 +27,18 @@ Pawn.prototype.init = function() {
     });
 };
 
+Pawn.prototype.setField = function(field) {
+  this.field = field;
+  this.position = this.player.path.findIndex(elem => {
+    if (elem[0] == this.field.x && elem[1] == this.field.y) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+  console.log(this.position);
+};
+
 Pawn.prototype.focus = function() {
   this.$elem.addClass("focused");
   this.isFocused = true;
@@ -37,17 +49,33 @@ Pawn.prototype.blur = function() {
   this.isFocused = false;
 };
 
-Pawn.prototype.isMovable = function() {
+Pawn.prototype.isMovable = function(range = 0) {
   var p = this.position,
     end = this.player.end;
 
-  if (
-    p === 43 ||
-    (p === 42 && end.checkField(3)) ||
-    (p === 41 && end.checkField(3) && end.checkField(2))
-  ) {
-    return false;
-  }
+  if (range == 0) {
+    if (
+      p === 43 ||
+      (p === 42 && end.checkField(3)) ||
+      (p === 41 && end.checkField(3) && end.checkField(2)) ||
+      (p === 40 && end.checkField(3) && end.checkField(2) && end.checkField(1))
+    ) {
+      return false;
+    }
+    return true;
+  } else {
+    if (range == 6 && p == -1) {
+      return true;
+    }
 
-  return true;
+    for (let i = 0; i < 4; i++) {
+      if (p == 43 - range - i && end.checkField(3 - i)) {
+        return false;
+      }
+
+      if (p < 39 - range) {
+        return true;
+      }
+    }
+  }
 };

@@ -61,6 +61,7 @@ Field.prototype.setPawn = function(pawn) {
       this.pawn = pawn;
       this.$elem.children().remove();
       this.$elem.append(pawn.$elem);
+      pawn.setField(this);
       return true;
     } else {
       return false;

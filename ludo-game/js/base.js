@@ -122,3 +122,9 @@ Base.prototype.checkFull = function() {
 
   return true;
 };
+
+Base.prototype.checkField = function(i) {
+  if (!this.fields[i].getPawn()) {
+    return false;
+  } else return true;
+};
