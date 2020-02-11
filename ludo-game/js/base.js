@@ -83,6 +83,7 @@ Base.prototype.setFields = function() {
  * @return {Array} Array of path coords
  */
 Base.prototype.getPath = function() {
+  0;
   return [].concat(this.path);
 };
 

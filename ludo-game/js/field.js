@@ -31,14 +31,6 @@ Field.prototype.init = function() {
     left: this.x * this.size + 26 + "px",
     top: this.y * this.size + 26 + "px"
   });
-  // .bind({
-  //   mouseover: function() {
-  //     that.focus();
-  //   },
-  //   mouseout: function() {
-  //     that.blur();
-  //   }
-  // });
 };
 
 Field.prototype.focus = function() {
@@ -67,7 +59,6 @@ Field.prototype.setPawn = function(pawn) {
   if (pawn) {
     if (pawn.player.color == this.type || this.type == 1) {
       this.pawn = pawn;
-      console.log("thinking...");
       this.$elem.children().remove();
       this.$elem.append(pawn.$elem);
       return true;
