@@ -9,8 +9,14 @@ const checkProbability = game => {
         // pawn ----------------------------------
         console.log(`Pawn: ${j}`);
 
-        let enemies = players[0].pawns[j].getEnemiesInRange(6, players[i]);
-        console.log(enemies);
+        let enemies_6 = players[0].pawns[j].getEnemiesInRange(6, players[i]);
+        console.log("Range 6: ", enemies_6);
+
+        let enemies_12 = players[0].pawns[j].getEnemiesInRange(12, players[i]);
+        console.log("Range 12: ", enemies_12);
+
+        let enemies_18 = players[0].pawns[j].getEnemiesInRange(18, players[i]);
+        console.log("Range 18: ", enemies_18);
 
         // start base (1/6) if has at least one inside
 

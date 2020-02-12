@@ -90,21 +90,26 @@ Pawn.prototype.isMovable = function(dice_roll = 0) {
 Pawn.prototype.getEnemiesInRange = function(range, enemy) {
   let board = this.player.board;
 
-  if (range == 6) {
-    let pos_on_enemy_path = enemy.findPositionInPath(this.field);
-    if (pos_on_enemy_path == -1) return [];
+  let pos_on_enemy_path = enemy.findPositionInPath(this.field);
+  if (pos_on_enemy_path == -1) return [];
 
-    let enemies = [];
-    while (range-- && pos_on_enemy_path) {
-      pos_on_enemy_path--;
-      let field = board.getField(enemy.path[pos_on_enemy_path]);
-      let next_enemy_pawn;
-      if (
-        (next_enemy_pawn = field.getPawn()) &&
-        next_enemy_pawn.player.color == enemy.color
-      )
-        enemies.push(next_enemy_pawn);
-    }
-    return enemies;
+  if (pos_on_enemy_path < range - 6) {
+    return [];
   }
+
+  pos_on_enemy_path -= range - 6;
+  range = 6;
+
+  let enemies = [];
+  while (range-- && pos_on_enemy_path) {
+    pos_on_enemy_path--;
+    let field = board.getField(enemy.path[pos_on_enemy_path]);
+    let next_enemy_pawn;
+    if (
+      (next_enemy_pawn = field.getPawn()) &&
+      next_enemy_pawn.player.color == enemy.color
+    )
+      enemies.push(next_enemy_pawn);
+  }
+  return enemies;
 };
