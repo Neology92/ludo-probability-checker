@@ -1,3 +1,8 @@
+const checkProbability = game => {
+  let players = game.players;
+  let fields = game.board.fields;
+};
+
 (function(global) {
   var game = {
       board: null,
@@ -110,5 +115,7 @@
 
   global.addEventListener("load", function() {
     init();
+
+    checkProbability(game);
   });
 })(this);
