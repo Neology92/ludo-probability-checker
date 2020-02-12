@@ -9,7 +9,6 @@ var Player = function(name, color, board) {
 
 // Path with end base
 Player.prototype.setPath = function() {
-  console.log(this.board);
   var start = (this.color - 2) * 10,
     p = this.board.path,
     size = p.length;
