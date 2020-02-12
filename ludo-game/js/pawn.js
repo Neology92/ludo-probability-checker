@@ -29,8 +29,8 @@ Pawn.prototype.init = function() {
 
 Pawn.prototype.setField = function(field) {
   this.field = field;
-  this.position = this.player.findFieldInPath(field);
-  console.log(this.position);
+  this.position = this.player.findPositionInPath(field);
+  console.log("Position: ", this.position);
 };
 
 Pawn.prototype.focus = function() {
@@ -87,10 +87,24 @@ Pawn.prototype.isMovable = function(dice_roll = 0) {
 };
 
 // range 6, 12, 18
-Pawn.prototype.isEnemyInRange = function(range, player) {
+Pawn.prototype.getEnemiesInRange = function(range, enemy) {
+  let board = this.player.board;
+
   if (range == 6) {
-    for (let i = 0; i < range; i++) {
-      player.path.findFieldInPath(field);
+    let pos_on_enemy_path = enemy.findPositionInPath(this.field);
+    if (pos_on_enemy_path == -1) return [];
+
+    let enemies = [];
+    while (range-- && pos_on_enemy_path) {
+      pos_on_enemy_path--;
+      let field = board.getField(enemy.path[pos_on_enemy_path]);
+      let next_enemy_pawn;
+      if (
+        (next_enemy_pawn = field.getPawn()) &&
+        next_enemy_pawn.player.color == enemy.color
+      )
+        enemies.push(next_enemy_pawn);
     }
+    return enemies;
   }
 };

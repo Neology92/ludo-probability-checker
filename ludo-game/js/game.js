@@ -1,11 +1,24 @@
 const checkProbability = game => {
   let players = game.players;
   let fields = game.board.fields;
-
-  for (let i = 1; i < 4; i++) {
+  for (let i = 1; i < 2; i++) {
+    // player ============================
     if (players[i].isMovable) {
-      ///
+      console.log(`Position for ${i}`);
+      for (let j = 0; j < 4; j++) {
+        // pawn ----------------------------------
+        console.log(`Pawn: ${j}`);
+
+        let enemies = players[0].pawns[j].getEnemiesInRange(6, players[i]);
+        console.log(enemies);
+
+        // start base (1/6) if has at least one inside
+
+        // pawn ----------------------------------
+      }
+      // player ============================
     }
+    console.log(`--------------`);
   }
 };
 
@@ -101,6 +114,7 @@ const checkProbability = game => {
 
           let moved = field_2.setPawn(pawn);
           if (moved) field_1.setPawn(null);
+          checkProbability(game);
         }
       },
       false
@@ -121,7 +135,5 @@ const checkProbability = game => {
 
   global.addEventListener("load", function() {
     init();
-
-    checkProbability(game);
   });
 })(this);
