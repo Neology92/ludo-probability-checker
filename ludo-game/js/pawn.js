@@ -70,7 +70,6 @@ Pawn.prototype.isMovable = function(dice_roll = 0) {
       if (next_field.getPawn()) {
         let next_pawn;
         next_pawn = next_field.getPawn();
-        console.log(next_pawn.player, this.player);
         if (next_pawn.player.color == this.player.color) {
           return false;
         }

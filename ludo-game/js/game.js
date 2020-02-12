@@ -1,22 +1,52 @@
 const checkProbability = game => {
+  console.clear();
+  let all = 0;
+
   let players = game.players;
-  let fields = game.board.fields;
-  for (let i = 1; i < 2; i++) {
+
+  for (let i = 1; i < 4; i++) {
     // player ============================
     if (players[i].isMovable) {
-      console.log(`Position for ${i}`);
+      console.log(`Capture probability from ${i} player`);
       for (let j = 0; j < 4; j++) {
         // pawn ----------------------------------
-        console.log(`Pawn: ${j}`);
+        let capture_probability = 0,
+          enemies_6,
+          enemies_12;
 
-        let enemies_6 = players[0].pawns[j].getEnemiesInRange(6, players[i]);
-        console.log("Range 6: ", enemies_6);
+        console.log(`]----Pawn: ${j}`);
 
-        let enemies_12 = players[0].pawns[j].getEnemiesInRange(12, players[i]);
-        console.log("Range 12: ", enemies_12);
+        enemies_6 = players[0].pawns[j].getEnemiesInRange(6, players[i]);
 
-        let enemies_18 = players[0].pawns[j].getEnemiesInRange(18, players[i]);
-        console.log("Range 18: ", enemies_18);
+        capture_probability += (1 / 6) * enemies_6.length;
+        let otherEnemyPawns = players[i].pawns.filter(
+          elem => !enemies_6.includes(elem)
+        );
+        let canOtherMove6 = false;
+        for (let i = 0; i < otherEnemyPawns.length; i++) {
+          if (otherEnemyPawns[i].isMovable(6)) {
+            canOtherMove6 = true;
+          }
+        }
+        if (canOtherMove6) {
+          capture_probability += (1 / 36) * enemies_6.length;
+        }
+
+        // -----------------
+
+        enemies_12 = players[0].pawns[j].getEnemiesInRange(12, players[i]);
+
+        let movable_at_6 = 0;
+        for (let i = 0; i < enemies_12.length; i++) {
+          if (enemies_12[i].isMovable(6)) {
+            movable_at_6++;
+          }
+        }
+
+        capture_probability += (1 / 36) * movable_at_6;
+
+        console.log(capture_probability);
+        all += capture_probability;
 
         // start base (1/6) if has at least one inside
 
@@ -25,6 +55,7 @@ const checkProbability = game => {
       // player ============================
     }
     console.log(`--------------`);
+    console.log(all);
   }
 };
 
