@@ -29,13 +29,8 @@ Pawn.prototype.init = function() {
 
 Pawn.prototype.setField = function(field) {
   this.field = field;
-  this.position = this.player.path.findIndex(elem => {
-    if (elem[0] == this.field.x && elem[1] == this.field.y) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+  this.position = this.player.findFieldInPath(field);
+  console.log(this.position);
 };
 
 Pawn.prototype.focus = function() {
@@ -48,11 +43,11 @@ Pawn.prototype.blur = function() {
   this.isFocused = false;
 };
 
-Pawn.prototype.isMovable = function(range = 0) {
+Pawn.prototype.isMovable = function(dice_roll = 0) {
   var p = this.position,
     end = this.player.end;
 
-  if (range == 0) {
+  if (dice_roll == 0) {
     if (
       p === 43 ||
       (p === 42 && end.checkField(3)) ||
@@ -63,13 +58,13 @@ Pawn.prototype.isMovable = function(range = 0) {
     }
     return true;
   } else {
-    if (range == 6 && p == -1) {
+    if (dice_roll == 6 && p == -1) {
       return true;
     }
-    if (p <= 39 - range) {
+    if (p <= 39 - dice_roll) {
       let next_xy, next_field;
 
-      next_xy = this.player.path[p + range];
+      next_xy = this.player.path[p + dice_roll];
       next_field = this.player.board.fields[next_xy[0]][next_xy[1]];
 
       if (next_field.getPawn()) {
@@ -83,10 +78,19 @@ Pawn.prototype.isMovable = function(range = 0) {
       return true;
     }
     for (let i = 0; i < 4; i++) {
-      if (p == 43 - range - i && !end.checkField(3 - i)) {
+      if (p == 43 - dice_roll - i && !end.checkField(3 - i)) {
         return true;
       }
     }
     return false;
+  }
+};
+
+// range 6, 12, 18
+Pawn.prototype.isEnemyInRange = function(range, player) {
+  if (range == 6) {
+    for (let i = 0; i < range; i++) {
+      player.path.findFieldInPath(field);
+    }
   }
 };

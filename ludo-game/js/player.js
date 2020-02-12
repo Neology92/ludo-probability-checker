@@ -47,3 +47,13 @@ Player.prototype.isMovable = function() {
 
   return false;
 };
+
+Player.prototype.findFieldInPath = function(field) {
+  return this.path.findIndex(elem => {
+    if (elem[0] == field.x && elem[1] == field.y) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+};

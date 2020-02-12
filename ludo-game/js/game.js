@@ -1,6 +1,12 @@
 const checkProbability = game => {
   let players = game.players;
   let fields = game.board.fields;
+
+  for (let i = 1; i < 4; i++) {
+    if (players[i].isMovable) {
+      ///
+    }
+  }
 };
 
 (function(global) {
