@@ -34,10 +34,10 @@ var Base = function(type, color, board) {
       },
       end: {
         2: [
-          [5, 9],
-          [5, 8],
-          [5, 7],
-          [5, 6]
+          [5, 1],
+          [5, 2],
+          [5, 3],
+          [5, 4]
         ],
         3: [
           [1, 5],
@@ -46,10 +46,10 @@ var Base = function(type, color, board) {
           [4, 5]
         ],
         4: [
-          [5, 1],
-          [5, 2],
-          [5, 3],
-          [5, 4]
+          [5, 9],
+          [5, 8],
+          [5, 7],
+          [5, 6]
         ],
         5: [
           [9, 5],
@@ -92,9 +92,9 @@ Base.prototype.getPath = function() {
  * @return {Object} Empty field
  */
 Base.prototype.getFreeField = function() {
-  var i = 0,
+  let i = 0,
     field;
-
+  // console.log(this.fields);
   while (i < 4) {
     field = this.fields[i];
     if (!field.getPawn()) {

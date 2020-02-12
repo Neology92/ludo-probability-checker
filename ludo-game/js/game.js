@@ -90,7 +90,14 @@
 
           let moved = field_2.setPawn(pawn);
           if (moved) field_1.setPawn(null);
-          console.log(pawn.isMovable());
+          console.log("Is movable(): ", pawn.isMovable());
+          console.log("Is movable(1): ", pawn.isMovable(1));
+          console.log("Is movable(2): ", pawn.isMovable(2));
+          console.log("Is movable(3): ", pawn.isMovable(3));
+          console.log("Is movable(4): ", pawn.isMovable(4));
+          console.log("Is movable(5): ", pawn.isMovable(5));
+          console.log("Is movable(6): ", pawn.isMovable(6));
+          console.log("=============================");
         }
       },
       false
