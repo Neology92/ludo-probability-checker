@@ -1,3 +1,38 @@
+const captureProb_6 = (enemy_pawns_6, enemy) => {
+  let probability = 0,
+    otherEnemyPawns,
+    canOtherMove6;
+
+  probability += (1 / 6) * enemy_pawns_6.length;
+
+  otherEnemyPawns = enemy.pawns.filter(elem => !enemy_pawns_6.includes(elem));
+
+  canOtherMove6 = false;
+  for (let i = 0; i < otherEnemyPawns.length; i++) {
+    if (otherEnemyPawns[i].isMovable(6)) {
+      canOtherMove6 = true;
+    }
+  }
+  if (canOtherMove6) {
+    probability += (1 / 36) * enemy_pawns_6.length;
+  }
+
+  return probability;
+};
+
+const captureProb_12 = (enemy_pawns_12, enemy) => {
+  let movable_at_6 = 0,
+    probability = 0;
+  for (let i = 0; i < enemy_pawns_12.length; i++) {
+    if (enemy_pawns_12[i].isMovable(6)) {
+      movable_at_6++;
+    }
+  }
+
+  probability += (1 / 36) * movable_at_6;
+  return probability;
+};
+
 const checkProbability = game => {
   console.clear();
   let all = 0;
@@ -17,33 +52,12 @@ const checkProbability = game => {
         console.log(`]----Pawn: ${j}`);
 
         enemies_6 = players[0].pawns[j].getEnemiesInRange(6, players[i]);
-
-        capture_probability += (1 / 6) * enemies_6.length;
-        let otherEnemyPawns = players[i].pawns.filter(
-          elem => !enemies_6.includes(elem)
-        );
-        let canOtherMove6 = false;
-        for (let i = 0; i < otherEnemyPawns.length; i++) {
-          if (otherEnemyPawns[i].isMovable(6)) {
-            canOtherMove6 = true;
-          }
-        }
-        if (canOtherMove6) {
-          capture_probability += (1 / 36) * enemies_6.length;
-        }
+        capture_probability += captureProb_6(enemies_6, players[i]);
 
         // -----------------
 
         enemies_12 = players[0].pawns[j].getEnemiesInRange(12, players[i]);
-
-        let movable_at_6 = 0;
-        for (let i = 0; i < enemies_12.length; i++) {
-          if (enemies_12[i].isMovable(6)) {
-            movable_at_6++;
-          }
-        }
-
-        capture_probability += (1 / 36) * movable_at_6;
+        capture_probability += captureProb_12(enemies_12, players[i]);
 
         console.log(capture_probability);
         all += capture_probability;
