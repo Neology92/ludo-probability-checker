@@ -3,6 +3,8 @@ var Pawn = function(player) {
   this.field = null;
   this.position = -1;
   this.init();
+  this.capture_chance = 0;
+  this.alive_chance = 1;
 };
 
 Pawn.prototype.size = 50;
@@ -111,4 +113,25 @@ Pawn.prototype.getEnemiesInRange = function(range, enemy) {
       enemies.push(next_enemy_pawn);
   }
   return enemies;
+};
+
+Pawn.prototype.addCaptureChance = function(chance) {
+  this.capture_chance += chance;
+};
+
+Pawn.prototype.calcNewAliveChance = function() {
+  this.alive_chance = 1 - this.capture_chance;
+};
+
+Pawn.prototype.getAliveChance = function() {
+  return this.alive_chance;
+};
+
+Pawn.prototype.getCaptureChance = function() {
+  return this.capture_chance;
+};
+
+Pawn.prototype.resetProbability = function() {
+  this.alive_chance = 1;
+  this.capture_chance = 0;
 };

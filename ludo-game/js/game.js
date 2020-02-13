@@ -6,8 +6,8 @@ const captureProb_6 = (enemy_pawns_6, enemy) => {
   probability += (1 / 6) * enemy_pawns_6.length;
 
   otherEnemyPawns = enemy.pawns.filter(elem => !enemy_pawns_6.includes(elem));
-
   canOtherMove6 = false;
+
   for (let i = 0; i < otherEnemyPawns.length; i++) {
     if (otherEnemyPawns[i].isMovable(6)) {
       canOtherMove6 = true;
@@ -23,6 +23,7 @@ const captureProb_6 = (enemy_pawns_6, enemy) => {
 const captureProb_12 = (enemy_pawns_12, enemy) => {
   let movable_at_6 = 0,
     probability = 0;
+
   for (let i = 0; i < enemy_pawns_12.length; i++) {
     if (enemy_pawns_12[i].isMovable(6)) {
       movable_at_6++;
@@ -38,39 +39,44 @@ const checkProbability = game => {
   let all = 0;
 
   let players = game.players;
+  let pawn, enemy;
+  let enemies_6, enemies_12;
 
-  for (let i = 1; i < 4; i++) {
-    // player ============================
-    if (players[i].isMovable) {
-      console.log(`Capture probability from ${i} player`);
-      for (let j = 0; j < 4; j++) {
-        // pawn ----------------------------------
-        let capture_probability = 0,
-          enemies_6,
-          enemies_12;
+  // pawns ----------------------------------
+  for (let j = 0; j < 4; j++) {
+    pawn = players[0].pawns[j];
+    console.log(`]----Pawn: ${j}`);
 
-        console.log(`]----Pawn: ${j}`);
+    // players ============================
+    for (let i = 1; i < 4; i++) {
+      enemy = players[i];
+      enemies_12 = [];
+      enemies_6 = [];
+      if (enemy.isMovable) {
+        enemies_6 = pawn.getEnemiesInRange(6, enemy);
+        kill_prob = pawn.getAliveChance() * captureProb_6(enemies_6, enemy);
+        pawn.addCaptureChance(kill_prob);
 
-        enemies_6 = players[0].pawns[j].getEnemiesInRange(6, players[i]);
-        capture_probability += captureProb_6(enemies_6, players[i]);
-
-        // -----------------
-
-        enemies_12 = players[0].pawns[j].getEnemiesInRange(12, players[i]);
-        capture_probability += captureProb_12(enemies_12, players[i]);
-
-        console.log(capture_probability);
-        all += capture_probability;
+        enemies_12 = pawn.getEnemiesInRange(12, enemy);
+        kill_prob = pawn.getAliveChance() * captureProb_12(enemies_12, enemy);
+        pawn.addCaptureChance(kill_prob);
 
         // start base (1/6) if has at least one inside
+        field_type = pawn.position / 10 + 2;
+        if (field_type == enemy.color) {
+          if (enemy.start.hasPawn()) {
+            pawn.addCaptureChance(1 / 6);
+          }
+        }
 
-        // pawn ----------------------------------
+        pawn.calcNewAliveChance();
       }
-      // player ============================
-    }
+    } // players ============================
+
+    console.log(pawn.getCaptureChance());
     console.log(`--------------`);
-    console.log(all);
-  }
+    pawn.resetProbability();
+  } // pawns ----------------------------------
 };
 
 (function(global) {

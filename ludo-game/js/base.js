@@ -106,6 +106,21 @@ Base.prototype.getFreeField = function() {
   return null;
 };
 
+Base.prototype.hasPawn = function() {
+  let i = 0,
+    field;
+
+  while (i < 4) {
+    field = this.fields[i];
+    if (field.getPawn()) {
+      return true;
+    }
+    i++;
+  }
+
+  return false;
+};
+
 /**
  * Check if base is full to determine if player should have 3 attempts to throw 6
  * @return {Boolean} Base status
