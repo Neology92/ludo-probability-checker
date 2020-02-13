@@ -57,3 +57,10 @@ Player.prototype.findPositionInPath = function(field) {
     }
   });
 };
+
+Player.prototype.calcPawnsCaptureChance = function(enemy) {
+  for (let j = 0; j < 4; j++) {
+    pawn = this.pawns[j];
+    pawn.calcCaptureProbability(enemy);
+  }
+};

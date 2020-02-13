@@ -135,3 +135,29 @@ Pawn.prototype.resetProbability = function() {
   this.alive_chance = 1;
   this.capture_chance = 0;
 };
+
+Pawn.prototype.calcCaptureProbability = function(enemy) {
+  let enemies_6, enemies_12;
+
+  enemies_12 = [];
+  enemies_6 = [];
+  if (enemy.isMovable) {
+    enemies_6 = this.getEnemiesInRange(6, enemy);
+    kill_prob = this.getAliveChance() * captureProb_6(enemies_6, enemy);
+    this.addCaptureChance(kill_prob);
+
+    enemies_12 = this.getEnemiesInRange(12, enemy);
+    kill_prob = this.getAliveChance() * captureProb_12(enemies_12, enemy);
+    this.addCaptureChance(kill_prob);
+
+    // start base (1/6) if has at least one inside
+    field_type = this.position / 10 + 2;
+    if (field_type == enemy.color) {
+      if (enemy.start.hasPawn()) {
+        this.addCaptureChance(1 / 6);
+      }
+    }
+
+    this.calcNewAliveChance();
+  }
+};
