@@ -25,7 +25,6 @@ Pawn.prototype.init = function() {
         //
       },
       click: function() {
-        console.log(that);
         if (that.player.color == 2 && that.active && !that.ghost) {
           dice_value = that.player.board.dice.getValue();
           ghost_pawn = that.createGhostPawn(dice_value);
@@ -70,7 +69,10 @@ Pawn.prototype.createGhostPawn = function(distance) {
         start_xy = this.player.path[0];
         field = game.board.getField(start_xy);
 
+        last_child = field.getPawn();
+        if (last_child) last_child.backToStart();
         moved = field.setPawn(ghost_pawn);
+        //
       } else {
         return false;
       }
@@ -79,7 +81,11 @@ Pawn.prototype.createGhostPawn = function(distance) {
       xy = this.player.path[new_pos];
       field = game.board.getField(xy);
 
+      last_child = field.getPawn();
+      if (last_child) last_child.backToStart();
       moved = field.setPawn(ghost_pawn);
+      // console.log(last_child);
+      //
     } else {
       return false;
     }
@@ -220,5 +226,15 @@ Pawn.prototype.calcCaptureProbability = function(enemy) {
     }
 
     this.calcNewAliveChance();
+  }
+};
+
+Pawn.prototype.backToStart = function() {
+  let field;
+
+  console.log(this);
+  field = this.player.start.getFreeField();
+  if (field) {
+    field.setPawn(this);
   }
 };

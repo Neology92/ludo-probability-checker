@@ -59,12 +59,13 @@ Field.prototype.setPawn = function(pawn) {
   if (pawn) {
     if (pawn.player.color == this.type || this.type == 1) {
       this.pawn = pawn;
+
       this.$elem.children().remove();
       this.$elem.append(pawn.$elem);
       pawn.setField(this);
       return true;
     } else {
-      return false;
+      return null;
     }
   } else {
     this.pawn = null;

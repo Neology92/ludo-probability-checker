@@ -41,7 +41,6 @@ const captureProb_12 = (enemy_pawns_12, enemy) => {
 const checkProbability = game => {
   let players = game.players;
 
-  console.clear();
   for (let i = 0; i < 4; i++) {
     players[i].resetPawnsProbability();
   }
@@ -63,6 +62,7 @@ const checkProbability = game => {
   players[3].calcPawnsCaptureChance(players[0]);
 
   // print in console ----------------------------------
+  // console.clear();
   for (let j = 0; j < 4; j++) {
     pawn = players[0].pawns[j];
     console.log(`]----Pawn: ${j}`);
