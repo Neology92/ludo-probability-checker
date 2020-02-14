@@ -9,6 +9,18 @@ const captureProb_6 = (enemy_pawns_6, enemy) => {
     for (let i = 0; i < enemy_pawns_6.length; i++) {
       probability += (1 / 36) * enemy_pawns_6[i].getAliveChance();
     }
+  } else if (enemy_pawns_6.length > 1) {
+    let alive_chance = 1;
+    let jump_above;
+    for (let i = 0; i < enemy_pawns_6.length; i++) {
+      alive_chance *= enemy_pawns_6[i].getAliveChance();
+      if (enemy_pawns_6[i].isMovable(6)) {
+        jump_above = true;
+      }
+    }
+    if (jump_above) {
+      probability += (1 / 36) * alive_chance;
+    }
   }
 
   return probability;
@@ -50,7 +62,7 @@ const checkProbability = game => {
   players[3].calcPawnsCaptureChance(players[0]);
 
   // print in console ----------------------------------
-  // console.clear();
+  console.clear();
   for (let j = 0; j < 4; j++) {
     pawn = players[0].pawns[j];
     console.log(`]----Pawn: ${j}`);
