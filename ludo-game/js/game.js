@@ -50,7 +50,7 @@ const checkProbability = game => {
   players[3].calcPawnsCaptureChance(players[0]);
 
   // print in console ----------------------------------
-  console.clear();
+  // console.clear();
   for (let j = 0; j < 4; j++) {
     pawn = players[0].pawns[j];
     console.log(`]----Pawn: ${j}`);

@@ -25,6 +25,7 @@ Pawn.prototype.init = function() {
         //
       },
       click: function() {
+        console.log(that);
         if (that.player.color == 2 && that.active && !that.ghost) {
           dice_value = that.player.board.dice.getValue();
           ghost_pawn = that.createGhostPawn(dice_value);
@@ -217,8 +218,14 @@ Pawn.prototype.calcCaptureProbability = function(enemy) {
     this.addCaptureChance(kill_prob);
 
     // start base (1/6) if has at least one inside
-    field_type = this.position / 10 + 2;
+    let shift = 2;
+    if (this.player.color != 2) {
+      shift = this.player.color - 4;
+    }
+
+    field_type = this.position / 10 + shift;
     range = (field_type - enemy.color).toFixed(1);
+
     if (enemy.start.hasPawn()) {
       if (field_type == enemy.color) {
         this.addCaptureChance(1 / 6);
