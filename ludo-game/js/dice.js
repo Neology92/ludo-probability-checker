@@ -1,7 +1,6 @@
 var Dice = function(parent) {
   this.value = 1;
   this.parent = parent;
-  this.firstThrow = true;
   this.$dice = null;
   this.$elem = null;
   this.init();
@@ -22,17 +21,12 @@ Dice.prototype.getValue = function() {
 };
 
 Dice.prototype.init = function() {
-  var that = this,
-    hint = $("<div />").addClass("dice-hint");
+  var that = this;
 
   this.$dice = $("<div />")
     .addClass("dice")
     .bind({
       click: function() {
-        if (that.firstThrow) {
-          hint.remove();
-          that.firstThrow = false;
-        }
         that.roll();
       }
     });
@@ -42,6 +36,5 @@ Dice.prototype.init = function() {
     $("<div>")
       .addClass("dice-wrap")
       .append(this.$dice)
-      .append(hint)
       .appendTo("#" + this.parent);
 };

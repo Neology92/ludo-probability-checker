@@ -13,7 +13,7 @@ body {
 #content {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 55%;
   width: 800px;
   height: 600px;
   margin: -300px 0 0 -400px;
@@ -207,4 +207,30 @@ body {
 .delta-positive p {
   font-weight: bold;
   color: red !important;
+}
+
+#manual {
+  position: absolute;
+  top: 100px;
+  left: 40px;
+
+  width: 20vw;
+  height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#manual p,
+#manual h1 {
+  color: white;
+}
+
+#manual p {
+  font-size: 16px;
+}
+
+#manual h1 {
+  font-size: 20px;
+  font-weight: bold;
 }
