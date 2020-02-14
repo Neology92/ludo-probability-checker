@@ -152,6 +152,7 @@ const checkProbability = game => {
         // move dragged elem to the selected drop target
         if (event.target.classList[0] == "field") {
           event.target.classList.remove("field-focused");
+
           let xy, coords, field_1, field_2;
           xy = dragged.parentNode.id.split("-");
           coords = [parseInt(xy[1], 10), parseInt(xy[2], 10)];
@@ -176,12 +177,12 @@ const checkProbability = game => {
 
     game.board = new Board("board");
     game.board.dice = new Dice("content");
+    game.popup = new Popup();
 
     addPlayer("Player 1", RED);
     addPlayer("Player 2", GREEN);
     addPlayer("Player 3", YELLOW);
     addPlayer("Player 4", BLUE);
-
     initDragging();
   }
 

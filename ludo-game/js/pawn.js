@@ -5,6 +5,9 @@ var Pawn = function(player) {
   this.init();
   this.capture_chance = 0;
   this.alive_chance = 1;
+  this.ghost = false;
+  this.active = true;
+  this.parentPawn = null;
 };
 
 Pawn.prototype.size = 50;
@@ -16,36 +19,73 @@ Pawn.prototype.init = function() {
     .addClass("pawn pawn-" + this.player.color)
     .bind({
       mouseover: function() {
-        if (that.player.isFocused) {
-          that.focus();
-        }
+        //
       },
       mouseout: function() {
-        that.blur();
+        //
       },
       click: function() {
         //! Show probability info
-        console.log(that.getCaptureChance());
+        console.log(that);
         dice_value = that.player.board.dice.getValue();
-        let ghost_pawn = that;
-        ghost_pawn.move(dice_value);
+        ghost_pawn = that.createGhostPawn(dice_value);
+        if (ghost_pawn) {
+          game.popup.open(
+            this.capture_chance,
+            dice_value,
+            ghost_pawn.capture_chance,
+            this
+          );
+        }
       }
     });
+};
+
+Pawn.prototype.createGhostPawn = function(distance) {
+  if (!this.ghost && this.active) {
+    console.log("Create ghost pawn");
+    let field,
+      moved = false;
+    let ghost_pawn = new Pawn(this.player);
+    ghost_pawn.ghost = true;
+
+    if (this.position == -1) {
+      if (distance == 6) {
+        start_xy = this.player.path[0];
+        field = game.board.getField(start);
+
+        moved = field.setPawn(ghost_pawn);
+      } else {
+        return false;
+      }
+    } else if (this.isMovable(distance)) {
+      new_pos = this.position + distance;
+      xy = this.player.path[new_pos];
+      field = game.board.getField(xy);
+
+      moved = field.setPawn(ghost_pawn);
+    } else {
+      return false;
+    }
+    if (moved) {
+      this.active = false;
+      game.board.ghostPawns.push(ghost_pawn);
+      return ghost_pawn;
+    }
+  } else return null;
+};
+
+Pawn.prototype.remove = function() {
+  console.log("Remove ghost pawn");
+  this.field.setPawn(null);
+  if (this.parentPawn) {
+    this.parentPawn.active = true;
+  }
 };
 
 Pawn.prototype.setField = function(field) {
   this.field = field;
   this.position = this.player.findPositionInPath(field);
-};
-
-Pawn.prototype.focus = function() {
-  this.$elem.addClass("focused");
-  this.isFocused = true;
-};
-
-Pawn.prototype.blur = function() {
-  this.$elem.removeClass("focused");
-  this.isFocused = false;
 };
 
 Pawn.prototype.isMovable = function(dice_roll = 0) {
@@ -162,33 +202,5 @@ Pawn.prototype.calcCaptureProbability = function(enemy) {
     }
 
     this.calcNewAliveChance();
-  }
-};
-
-Pawn.prototype.move = function(distance) {
-  let field, new_field;
-
-  if (this.position == -1) {
-    if (distance == 6) {
-      field = this.field;
-
-      start = this.player.path[0];
-      new_field = game.board.getField(start);
-
-      let moved = new_field.setPawn(this);
-      if (moved) field.setPawn(null);
-    } else {
-      return false;
-    }
-  } else if (this.isMovable(distance)) {
-    field = this.field;
-    new_pos = this.position + distance;
-    xy = this.player.path[new_pos];
-    new_field = game.board.getField(xy);
-
-    let moved = new_field.setPawn(this);
-    if (moved) field.setPawn(null);
-  } else {
-    return false;
   }
 };

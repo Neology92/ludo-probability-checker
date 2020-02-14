@@ -6,7 +6,7 @@ var Board = function(id) {
     this.$elem[0].id = id;
     $("#content").append(this.$elem);
   }
-
+  this.ghostPawns = [];
   this.fields = [];
   this.path = [
     [4, 10],
