@@ -65,7 +65,7 @@ Player.prototype.calcPawnsCaptureChance = function(enemy) {
   }
 };
 
-Player.prototype.resetPawnsProbability = function(enemy) {
+Player.prototype.resetPawnsProbability = function() {
   for (let j = 0; j < 4; j++) {
     pawn = this.pawns[j];
     pawn.resetProbability();
@@ -80,4 +80,16 @@ Player.prototype.replacePawn = function(pawn, new_pawn) {
   } else {
     console.error("Err: Couldn'r replace pawns");
   }
+};
+
+Player.prototype.hasFree6MovablePawns = function(excluded) {
+  otherPawns = this.pawns.filter(elem => !excluded.includes(elem));
+  canOtherMove6 = false;
+
+  for (let i = 0; i < otherPawns.length; i++) {
+    if (otherPawns[i].isMovable(6)) {
+      return true;
+    }
+  }
+  return false;
 };

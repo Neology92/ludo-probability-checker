@@ -99,7 +99,6 @@ Pawn.prototype.createGhostPawn = function(distance) {
 };
 
 Pawn.prototype.remove = function() {
-  console.log("Remove ghost pawn");
   this.field.setPawn(null);
   if (this.parentPawn) {
     this.parentPawn.active = true;
@@ -219,9 +218,12 @@ Pawn.prototype.calcCaptureProbability = function(enemy) {
 
     // start base (1/6) if has at least one inside
     field_type = this.position / 10 + 2;
-    if (field_type == enemy.color) {
-      if (enemy.start.hasPawn()) {
+    range = (field_type - enemy.color).toFixed(1);
+    if (enemy.start.hasPawn()) {
+      if (field_type == enemy.color) {
         this.addCaptureChance(1 / 6);
+      } else if (range >= 0.1 && range <= 0.6) {
+        this.addCaptureChance(1 / 36);
       }
     }
 
@@ -232,7 +234,6 @@ Pawn.prototype.calcCaptureProbability = function(enemy) {
 Pawn.prototype.backToStart = function() {
   let field;
 
-  console.log(this);
   field = this.player.start.getFreeField();
   if (field) {
     field.setPawn(this);

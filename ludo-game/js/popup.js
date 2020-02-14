@@ -51,7 +51,6 @@ Popup.prototype.reset = function() {
 };
 
 Popup.prototype.open = function(cap_chance, dist, next_cap_chance) {
-  console.log("Open popup");
   this.isOpen = true;
 
   // display next to pawn
@@ -84,7 +83,6 @@ Popup.prototype.open = function(cap_chance, dist, next_cap_chance) {
 };
 
 Popup.prototype.close = function() {
-  console.log("close popup");
   this.isOpen = false;
 
   let ghost_pawns, pawn, player;

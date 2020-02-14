@@ -1,21 +1,11 @@
 const captureProb_6 = (enemy_pawns_6, enemy) => {
-  let probability = 0,
-    otherEnemyPawns,
-    canOtherMove6;
+  let probability = 0;
 
   for (let i = 0; i < enemy_pawns_6.length; i++) {
     probability += (1 / 6) * enemy_pawns_6[i].getAliveChance();
   }
 
-  otherEnemyPawns = enemy.pawns.filter(elem => !enemy_pawns_6.includes(elem));
-  canOtherMove6 = false;
-
-  for (let i = 0; i < otherEnemyPawns.length; i++) {
-    if (otherEnemyPawns[i].isMovable(6)) {
-      canOtherMove6 = true;
-    }
-  }
-  if (canOtherMove6) {
+  if (enemy.hasFree6MovablePawns(enemy_pawns_6)) {
     for (let i = 0; i < enemy_pawns_6.length; i++) {
       probability += (1 / 36) * enemy_pawns_6[i].getAliveChance();
     }
@@ -24,16 +14,14 @@ const captureProb_6 = (enemy_pawns_6, enemy) => {
   return probability;
 };
 
-const captureProb_12 = (enemy_pawns_12, enemy) => {
+const captureProb_12 = enemy_pawns_12 => {
   let movable_at_6 = 0,
     probability = 0;
-
   for (let i = 0; i < enemy_pawns_12.length; i++) {
     if (enemy_pawns_12[i].isMovable(6)) {
       movable_at_6++;
     }
   }
-
   probability += (1 / 36) * movable_at_6;
   return probability;
 };
@@ -62,7 +50,7 @@ const checkProbability = game => {
   players[3].calcPawnsCaptureChance(players[0]);
 
   // print in console ----------------------------------
-  // console.clear();
+  console.clear();
   for (let j = 0; j < 4; j++) {
     pawn = players[0].pawns[j];
     console.log(`]----Pawn: ${j}`);
