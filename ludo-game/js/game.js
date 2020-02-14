@@ -153,19 +153,21 @@ const checkProbability = game => {
         if (event.target.classList[0] == "field") {
           event.target.classList.remove("field-focused");
 
-          let xy, coords, field_1, field_2;
-          xy = dragged.parentNode.id.split("-");
-          coords = [parseInt(xy[1], 10), parseInt(xy[2], 10)];
-          field_1 = game.board.getField(coords);
-          pawn = field_1.getPawn();
+          if (!game.popup.isOpen) {
+            let xy, coords, field_1, field_2;
+            xy = dragged.parentNode.id.split("-");
+            coords = [parseInt(xy[1], 10), parseInt(xy[2], 10)];
+            field_1 = game.board.getField(coords);
+            pawn = field_1.getPawn();
 
-          xy = event.target.id.split("-");
-          coords = [parseInt(xy[1], 10), parseInt(xy[2], 10)];
-          field_2 = game.board.getField(coords);
+            xy = event.target.id.split("-");
+            coords = [parseInt(xy[1], 10), parseInt(xy[2], 10)];
+            field_2 = game.board.getField(coords);
 
-          let moved = field_2.setPawn(pawn);
-          if (moved) field_1.setPawn(null);
-          checkProbability(game);
+            let moved = field_2.setPawn(pawn);
+            if (moved) field_1.setPawn(null);
+            checkProbability(game);
+          }
         }
       },
       false

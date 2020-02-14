@@ -25,34 +25,49 @@ Pawn.prototype.init = function() {
         //
       },
       click: function() {
-        //! Show probability info
         console.log(that);
-        dice_value = that.player.board.dice.getValue();
-        ghost_pawn = that.createGhostPawn(dice_value);
-        if (ghost_pawn) {
+        if (that.player.color == 2 && that.active && !that.ghost) {
+          dice_value = that.player.board.dice.getValue();
+          ghost_pawn = that.createGhostPawn(dice_value);
+          ghost_capture_chance = -1;
+          if (ghost_pawn) ghost_capture_chance = ghost_pawn.capture_chance;
+
           game.popup.open(
-            this.capture_chance,
+            that.capture_chance.toFixed(5),
             dice_value,
-            ghost_pawn.capture_chance,
-            this
+            ghost_capture_chance.toFixed(5)
           );
+
+          that.checkActive();
         }
       }
     });
 };
 
+Pawn.prototype.checkActive = function() {
+  if (this.active) {
+    this.$elem.removeClass("unactive");
+  } else {
+    this.$elem.addClass("unactive");
+  }
+};
+
 Pawn.prototype.createGhostPawn = function(distance) {
   if (!this.ghost && this.active) {
+    game.popup.close();
+
     console.log("Create ghost pawn");
     let field,
       moved = false;
     let ghost_pawn = new Pawn(this.player);
+    ghost_pawn.parentPawn = this;
     ghost_pawn.ghost = true;
+    ghost_pawn.$elem.addClass("ghost");
 
     if (this.position == -1) {
       if (distance == 6) {
         start_xy = this.player.path[0];
-        field = game.board.getField(start);
+        field = game.board.getField(start_xy);
 
         moved = field.setPawn(ghost_pawn);
       } else {
@@ -80,6 +95,7 @@ Pawn.prototype.remove = function() {
   this.field.setPawn(null);
   if (this.parentPawn) {
     this.parentPawn.active = true;
+    this.parentPawn.checkActive();
   }
 };
 
