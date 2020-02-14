@@ -71,3 +71,13 @@ Player.prototype.resetPawnsProbability = function(enemy) {
     pawn.resetProbability();
   }
 };
+
+Player.prototype.replacePawn = function(pawn, new_pawn) {
+  let index = this.pawns.indexOf(pawn);
+
+  if (index !== -1) {
+    this.pawns[index] = new_pawn;
+  } else {
+    console.error("Err: Couldn'r replace pawns");
+  }
+};

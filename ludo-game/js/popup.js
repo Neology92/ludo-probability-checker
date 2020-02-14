@@ -57,7 +57,7 @@ Popup.prototype.open = function(cap_chance, dist, next_cap_chance) {
   // display next to pawn
   this.reset();
 
-  let delta = next_cap_chance - cap_chance;
+  let delta = (next_cap_chance - cap_chance).toFixed(5);
 
   this.$bar1.append($(`<p>${dist}</p>`));
   this.$bar2.append($(`<p>${cap_chance}</p>`));
@@ -87,11 +87,17 @@ Popup.prototype.close = function() {
   console.log("close popup");
   this.isOpen = false;
 
-  let ghost_pawns = game.board.ghostPawns;
+  let ghost_pawns, pawn, player;
+  ghost_pawns = game.board.ghostPawns;
+
   for (let i = 0; i < ghost_pawns.length; i++) {
-    ghost_pawns[i].remove();
-    game.board.ghostPawns = [];
+    pawn = ghost_pawns[i];
+    player = pawn.player;
+
+    pawn.remove();
+    player.replacePawn(pawn, pawn.parentPawn);
   }
+  game.board.ghostPawns = [];
 
   // Close popup
   this.$elem.addClass("popup-hide");

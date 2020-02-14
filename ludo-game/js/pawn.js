@@ -29,6 +29,7 @@ Pawn.prototype.init = function() {
         if (that.player.color == 2 && that.active && !that.ghost) {
           dice_value = that.player.board.dice.getValue();
           ghost_pawn = that.createGhostPawn(dice_value);
+          checkProbability(game);
           ghost_capture_chance = -1;
           if (ghost_pawn) ghost_capture_chance = ghost_pawn.capture_chance;
 
@@ -85,6 +86,7 @@ Pawn.prototype.createGhostPawn = function(distance) {
     if (moved) {
       this.active = false;
       game.board.ghostPawns.push(ghost_pawn);
+      this.player.replacePawn(this, ghost_pawn);
       return ghost_pawn;
     }
   } else return null;
