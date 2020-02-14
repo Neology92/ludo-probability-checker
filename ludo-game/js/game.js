@@ -39,27 +39,36 @@ const captureProb_12 = (enemy_pawns_12, enemy) => {
 };
 
 const checkProbability = game => {
-  console.clear();
-
   let players = game.players;
+
+  console.clear();
+  for (let i = 0; i < 4; i++) {
+    players[i].resetPawnsProbability();
+  }
 
   players[0].calcPawnsCaptureChance(players[1]);
   players[2].calcPawnsCaptureChance(players[1]);
   players[3].calcPawnsCaptureChance(players[1]);
 
   players[0].calcPawnsCaptureChance(players[2]);
+  players[1].calcPawnsCaptureChance(players[2]);
   players[3].calcPawnsCaptureChance(players[2]);
 
   players[0].calcPawnsCaptureChance(players[3]);
+  players[1].calcPawnsCaptureChance(players[3]);
+  players[2].calcPawnsCaptureChance(players[3]);
 
-  // print ----------------------------------
+  players[1].calcPawnsCaptureChance(players[0]);
+  players[2].calcPawnsCaptureChance(players[0]);
+  players[3].calcPawnsCaptureChance(players[0]);
+
+  // print in console ----------------------------------
   for (let j = 0; j < 4; j++) {
     pawn = players[0].pawns[j];
     console.log(`]----Pawn: ${j}`);
 
     console.log(pawn.getCaptureChance());
     console.log(`--------------`);
-    pawn.resetProbability();
   }
 };
 
@@ -166,6 +175,8 @@ const checkProbability = game => {
     global.game = game;
 
     game.board = new Board("board");
+    game.board.dice = new Dice("content");
+
     addPlayer("Player 1", RED);
     addPlayer("Player 2", GREEN);
     addPlayer("Player 3", YELLOW);

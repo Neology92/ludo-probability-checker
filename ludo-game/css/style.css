@@ -147,3 +147,61 @@ body {
     background-position: -150px -150px;
   }
 }
+
+.dice-wrap {
+  position: absolute;
+  top: 485px;
+  left: 635px;
+  width: 90px;
+  height: 90px;
+  background-image: url("../images/dice.png");
+  background-position: 0 -75px;
+  -webkit-transition: top 0.1s linear, left 0.1s linear;
+}
+
+.dice-wrap.focused {
+  -webkit-animation: focusdice 0.5s steps(1) infinite alternate;
+}
+
+.dice {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 60px;
+  height: 60px;
+  background-image: url("../images/dice.png");
+  cursor: pointer;
+}
+
+.dice-2 {
+  background-position: -60px 0;
+}
+
+.dice-3 {
+  background-position: -120px 0;
+}
+
+.dice-4 {
+  background-position: -180px 0;
+}
+
+.dice-5 {
+  background-position: -240px 0;
+}
+
+.dice-6 {
+  background-position: -300px 0;
+}
+
+.throw {
+  opacity: 0.3;
+}
+
+.dice-hint {
+  position: absolute;
+  top: -70px;
+  left: 45px;
+  width: 120px;
+  height: 80px;
+  background: url("../images/sprites.png") -240px -160px no-repeat;
+}

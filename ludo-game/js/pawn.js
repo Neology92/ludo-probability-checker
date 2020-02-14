@@ -25,6 +25,10 @@ Pawn.prototype.init = function() {
       },
       click: function() {
         //! Show probability info
+        console.log(that.getCaptureChance());
+        dice_value = that.player.board.dice.getValue();
+        let ghost_pawn = that;
+        ghost_pawn.move(dice_value);
       }
     });
 };
@@ -32,7 +36,6 @@ Pawn.prototype.init = function() {
 Pawn.prototype.setField = function(field) {
   this.field = field;
   this.position = this.player.findPositionInPath(field);
-  console.log("Position: ", this.position);
 };
 
 Pawn.prototype.focus = function() {
@@ -159,5 +162,33 @@ Pawn.prototype.calcCaptureProbability = function(enemy) {
     }
 
     this.calcNewAliveChance();
+  }
+};
+
+Pawn.prototype.move = function(distance) {
+  let field, new_field;
+
+  if (this.position == -1) {
+    if (distance == 6) {
+      field = this.field;
+
+      start = this.player.path[0];
+      new_field = game.board.getField(start);
+
+      let moved = new_field.setPawn(this);
+      if (moved) field.setPawn(null);
+    } else {
+      return false;
+    }
+  } else if (this.isMovable(distance)) {
+    field = this.field;
+    new_pos = this.position + distance;
+    xy = this.player.path[new_pos];
+    new_field = game.board.getField(xy);
+
+    let moved = new_field.setPawn(this);
+    if (moved) field.setPawn(null);
+  } else {
+    return false;
   }
 };

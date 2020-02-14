@@ -64,3 +64,10 @@ Player.prototype.calcPawnsCaptureChance = function(enemy) {
     pawn.calcCaptureProbability(enemy);
   }
 };
+
+Player.prototype.resetPawnsProbability = function(enemy) {
+  for (let j = 0; j < 4; j++) {
+    pawn = this.pawns[j];
+    pawn.resetProbability();
+  }
+};
