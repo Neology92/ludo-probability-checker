@@ -1,4 +1,4 @@
-Small project, which depends on calculation probability in popular boarg game: Ludo.
+Small project, which depends on calculation probability in popular board game: Ludo.
 
-Ludo game (Copyright by dojoVader) in js source code from:
+Basic Ludo source code concept (Copyright by dojoVader) from:
 https://github.com/dojoVader/ludo
